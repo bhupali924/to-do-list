@@ -1,0 +1,44 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+
+function App() {
+  const [task, setTask] = useState('');
+  const [todos, setTodos] = useState([]);
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setTask(e.target.value);
+  };
+
+  const handleClick = () => {
+    if (task === '') return;
+    setTodos([...todos, { id: Date.now(), text: task, completed: false }]);
+    setTask('');
+  };
+
+  // function deleteTask(id){
+  //   setTodos(todos.filter(todo => todo.id !== id));
+  // }
+
+  return (
+    <>
+      <h1>TO DO LIST</h1>
+      <input 
+        type="text" 
+        placeholder="Add items" 
+        value={task} 
+        onChange={handleChange}
+      />
+      <button onClick={handleClick}>ADD TO LIST</button>
+      <div>
+        {todos.map((t) => (
+          <div key={t.id}>{t.text}</div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+export default App;
