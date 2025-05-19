@@ -1,44 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+document.getElementById("todo-form").addEventListener("submit", function(e) {
+    e.preventDefault(); // Prevent form from reloading the page
 
-function App() {
-  const [task, setTask] = useState('');
-  const [todos, setTodos] = useState([]);
+  const input = document.getElementById("taskInput");
+  const taskText = input.value.trim();
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    setTask(e.target.value);
-  };
+  const li = document.createElement("li");
 
-  const handleClick = () => {
-    if (task === '') return;
-    setTodos([...todos, { id: Date.now(), text: task, completed: false }]);
-    setTask('');
-  };
+  const span = document.createElement("span");
+  span.textContent = taskText;
 
-  // function deleteTask(id){
-  //   setTodos(todos.filter(todo => todo.id !== id));
-  // }
+  const actions = document.createElement("div");
+  actions.className = "actions";
 
-  return (
-    <>
-      <h1>TO DO LIST</h1>
-      <input 
-        type="text" 
-        placeholder="Add items" 
-        value={task} 
-        onChange={handleChange}
-      />
-      <button onClick={handleClick}>ADD TO LIST</button>
-      <div>
-        {todos.map((t) => (
-          <div key={t.id}>{t.text}</div>
-        ))}
-      </div>
-    </>
-  );
-}
+  const completeBtn = document.createElement("button");
+  completeBtn.className = "check-btn";
+      completeBtn.innerHTML = '<i class="fas fa-check"></i>';
+      completeBtn.onclick = () => {
+    li.classList.toggle("completed");
+};
 
-export default App;
+const deleteBtn = document.createElement("button");
+deleteBtn.className = "delete-btn";
+      deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+      deleteBtn.onclick = () => {
+    li.remove();
+};
+
+actions.appendChild(completeBtn);
+actions.appendChild(deleteBtn);
+
+li.appendChild(span);
+li.appendChild(actions);
+
+document.getElementById("taskList").appendChild(li);
+input.value = "";
+});
